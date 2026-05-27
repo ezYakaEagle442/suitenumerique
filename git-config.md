@@ -5,12 +5,12 @@ If your GIT repo URL starts with HTTPS (ex: "https://github.com/<!XXXyour-git-ho
 When MFA is enabled on GitHub and that you plan to use SSH Keys, you have to use: git clone git@github.com:your-git-home/suitenumerique.git
 
 ```sh
-$GH_USR="your-git-user>"
+export GH_USR="your-git-user"
 export ssh_key=github
 export ssh_passphrase="Your Secret phrase !"
 
 echo -e 'y' | ssh-keygen -t rsa -b 4096 -f ~/.ssh/$ssh_key -C "youremail@groland.grd" -N $ssh_passphrase
-
+echo GH_USR=$GH_USR
 ```
 
 ## Allow your SSH Keys from GitHub
