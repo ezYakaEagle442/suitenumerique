@@ -143,5 +143,98 @@ python3 -m pip install -r requirements.txt ansible-galaxy install -r requirement
 
 ```
 
-#
+# Deploy on Outscale
 
+## Install Outscale CLI
+
+Read the [doc](https://docs.outscale.com/fr/userguide/Installer-et-configurer-OSC-CLI.html)
+and [CLI Ref](https://github.com/outscale/osc-cli/blob/main/README.md)
+
+```sh
+
+apt list -v '*osc-sdk'
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip3 install osc-sdk
+
+cd ~
+mkdir ".osc"
+
+export ACCESSKEY="<CONFIDENTIAL ACCESS KEY>"
+export SECRETKEY="<CONFIDENTIAL SECRET KEY>"
+
+cat <<EOF >> config.json
+{
+    "default": {
+        "access_key": "$ACCESSKEY",
+        "secret_key": "$SECRETKEY",
+        "host": "outscale.com",
+        "https": true,
+        "method": "POST",
+        "region": "eu-west-2"
+    }
+}
+EOF
+
+# envsubst < config.json > deploy/config.json
+
+cat config.json
+osc-cli --version
+
+```
+
+
+## Run OpenTofu
+
+30_outscale - Outscale tofu stack
+
+```sh
+
+# The configuration path for the environment.
+export DIMAIL_CONFIG_PATH="../dimail-infra-template"
+
+# The environment (e.g., ovhprod, ovhdev, osdev, osdev2, osprod).
+export DIMAIL_ENV="outscaledev"
+
+# - The type of environment (e.g., prod).
+export DIMAIL_ENVTYPE="dev"
+
+# The hosting type.
+export DIMAIL_HOSTING="outscale"
+
+mkdir $DIMAIL_CONFIG_PATH/env-$DIMAIL_ENV
+
+export OS_USERNAME="openstack-username"
+export OS_PASSWORD="openstack-password"
+export OS_PROJECT_NAME="openstack-projectname"
+export OS_PROJECT_ID="openstack-projectid"
+
+export OS_PROJECT_DOMAIN_NAME="Default"
+export OS_USER_DOMAIN_NAME="Default"
+export OS_AUTH_URL="https://auth.outscale.com"
+export OS_PROJECT_DOMAIN_ID="default"
+export OS_REGION_NAME="eu-west-2a"
+export OS_INTERFACE="public"
+export OS_IDENTITY_API_VERSION="3"
+
+make help
+
+# Init: 
+make init
+
+# Plan: 
+make plan
+
+# Apply: *
+make apply
+
+# Autres Commandes: make check checks environment, every operation launch it for you.
+#Tests: 
+make test runs some tests on the ansible stack
+```
+
+```sh
+
+```
