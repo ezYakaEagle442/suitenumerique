@@ -1,3 +1,9 @@
+prv/*
+deploy/*
+cnf/*
+setenv.*
+.env
+
 # Local .terraform directories
 .terraform/
 
