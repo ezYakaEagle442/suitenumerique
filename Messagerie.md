@@ -183,6 +183,7 @@ EOF
 cat config.json
 osc-cli --version
 
+deactivate
 ```
 
 
@@ -193,7 +194,7 @@ osc-cli --version
 ```sh
 
 # The configuration path for the environment.
-export DIMAIL_CONFIG_PATH="../dimail-infra-template"
+export DIMAIL_CONFIG_PATH="/mnt/c/github/dimail-infra-template"
 
 # The environment (e.g., ovhprod, ovhdev, osdev, osdev2, osprod).
 export DIMAIL_ENV="outscaledev"
@@ -219,7 +220,15 @@ export OS_REGION_NAME="eu-west-2a"
 export OS_INTERFACE="public"
 export OS_IDENTITY_API_VERSION="3"
 
+export OUTSCALE_ACCESSKEYID="myaccesskey101"
+export OUTSCALE_SECRETKEYID="mysecretkey101"
+export OUTSCALE_REGION="eu-west-2a"
+#export OUTSCALE_X509CERT="~/certificate/certificate.crt"
+#export OUTSCALE_X509KEY="~/certificate/certificate.key"
+
 make help
+
+tofu workspace list
 
 # Init: 
 make init
